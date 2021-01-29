@@ -3,15 +3,19 @@ package cn.shopping.lstsm_kgc.entity;
 import it.unisa.dia.gas.jpbc.Element;
 import lombok.Data;
 
+import java.io.Serializable;
+
 @Data
-public class PK {
-    private Element psi1;
+public class PK implements Serializable {
+    private static final long serialVersionUID = 1L;
 
-    private Element psi2;
+    private byte[] psi1;
 
-    private Element[] psi3;
+    private byte[] psi2;
 
-    private Element psi4;
+    private Psi3_Map[] psi3;
 
-    private Element psi5;
+    private byte[] psi4;
+
+    private byte[] psi5;
 }

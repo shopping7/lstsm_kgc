@@ -6,8 +6,10 @@ import lombok.Data;
 import java.io.Serializable;
 
 @Data
-public class D3_Map implements Serializable {
+public class CTout implements Serializable {
     private static final long serialVersionUID = 1L;
-    private byte[] D3;
-    private String attr;
+    private Element C0;
+    private Element L1;
+    private Element V1;
+    private byte[] Cm;
 }

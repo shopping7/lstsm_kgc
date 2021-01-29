@@ -19,7 +19,7 @@ public class Serial<T> {
         }
     }
 
-    private T deserial(byte[] value) {
+    public T deserial(byte[] value) {
         T result;
         try {
             //反序列化核心就是ByteArrayInputStream

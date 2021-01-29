@@ -1,18 +1,13 @@
 package cn.shopping.lstsm_kgc.service.impl;
 
 import cn.shopping.lstsm_kgc.config.Serial;
-import cn.shopping.lstsm_kgc.entity.MSK;
-import cn.shopping.lstsm_kgc.entity.PKAndSK;
-import cn.shopping.lstsm_kgc.entity.PP;
-import cn.shopping.lstsm_kgc.entity.Ppandmsk;
-import cn.shopping.lstsm_kgc.mapper.SetupMapper;
-import cn.shopping.lstsm_kgc.service.SetupService;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import cn.shopping.lstsm_kgc.entity.*;
+import cn.shopping.lstsm_kgc.mapper.SysParaMapper;
+import cn.shopping.lstsm_kgc.service.SysParaService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Field;
 import it.unisa.dia.gas.jpbc.Pairing;
-import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,29 +17,20 @@ import org.springframework.stereotype.Service;
  * </p>
  *
  * @author 公众号：java思维导图
- * @since 2021-01-24
+ * @since 2021-01-27
  */
 @Service
-public class SetupServiceImpl extends ServiceImpl<SetupMapper, Ppandmsk> implements SetupService {
-    private Pairing pairing;
-    public static Field G1, GT, Zr, K;
-
+public class SysParaServiceImpl extends ServiceImpl<SysParaMapper, SysPara> implements SysParaService {
     @Autowired
-    SetupMapper mapper;
+    SysParaMapper mapper;
 
     @Override
     public void Setup() {
         Element g, f, Y, Y0, h;
-        pairing = PairingFactory.getPairing("application.properties");
-        PairingFactory.getInstance().setUsePBCWhenPossible(true);
-        if(!pairing.isSymmetric()){
-            throw new RuntimeException("密钥不对称");
-        }
-
-        Zr = pairing.getZr();
-        G1 = pairing.getG1();
-        K = pairing.getG2();
-        GT = pairing.getGT();
+        Pairing pairing = DoublePairing.pairing;
+        Field G1 = DoublePairing.G1;
+        Field Zr = DoublePairing.Zr;
+        Field K = DoublePairing.K;
 
         g = G1.newRandomElement().getImmutable();
         Element alpha = Zr.newRandomElement().getImmutable();
@@ -77,20 +63,16 @@ public class SetupServiceImpl extends ServiceImpl<SetupMapper, Ppandmsk> impleme
         byte[] msk_b = serial.serial(msk);
         byte[] pp_b = serial.serial(pp);
 
-        Ppandmsk ppAndMsk = new Ppandmsk();
-        ppAndMsk.setPp(pp_b);
-        ppAndMsk.setMsk(msk_b);
+        SysPara sysPara = new SysPara();
+        sysPara.setPp(pp_b);
+        sysPara.setMsk(msk_b);
 
-        mapper.insert(ppAndMsk);
+        mapper.insert(sysPara);
     }
 
     @Override
-    public Ppandmsk getPpMsk() {
-        return mapper.selectOne(null);
-    }
-
-    @Override
-    public PKAndSK KenGen(MSK msk, String id, String[] attributes) {
-        return null;
+    public SysPara getSysPara() {
+        SysPara sysPara = mapper.selectOne(null);
+        return sysPara;
     }
 }

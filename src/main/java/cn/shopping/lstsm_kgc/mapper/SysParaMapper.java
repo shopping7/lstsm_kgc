@@ -1,6 +1,7 @@
 package cn.shopping.lstsm_kgc.mapper;
 
-import cn.shopping.lstsm_kgc.entity.Ppandmsk;
+
+import cn.shopping.lstsm_kgc.entity.SysPara;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
@@ -9,8 +10,9 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * </p>
  *
  * @author 公众号：java思维导图
- * @since 2021-01-24
+ * @since 2021-01-27
  */
-public interface SetupMapper extends BaseMapper<Ppandmsk> {
+
+public interface SysParaMapper extends BaseMapper<SysPara> {
 
 }
