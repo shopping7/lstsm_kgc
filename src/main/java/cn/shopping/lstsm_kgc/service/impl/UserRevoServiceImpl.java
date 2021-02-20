@@ -2,19 +2,34 @@ package cn.shopping.lstsm_kgc.service.impl;
 
 import cn.shopping.lstsm_kgc.config.Crytpto;
 import cn.shopping.lstsm_kgc.entity.*;
-import cn.shopping.lstsm_kgc.service.TranceService;
+import cn.shopping.lstsm_kgc.mapper.UserRevoMapper;
+import cn.shopping.lstsm_kgc.service.UserRevoService;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Field;
 import it.unisa.dia.gas.jpbc.Pairing;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 
 import java.util.Base64;
 
+/**
+ * <p>
+ *  服务实现类
+ * </p>
+ *
+ * @author 公众号：java思维导图
+ * @since 2021-01-30
+ */
 @Service
-public class TranceServiceImpl implements TranceService {
+public class UserRevoServiceImpl extends ServiceImpl<UserRevoMapper, UserRevo> implements UserRevoService {
 
-    public String Trace(PP pp, MSK msk, SK sk){
+    @Autowired
+    UserRevoMapper mapper;
+
+    @Override
+    public String Trace(PP pp, MSK msk, SK sk) {
         Pairing pairing = DoublePairing.pairing;
         Field G1 = DoublePairing.G1;
         Field GT = DoublePairing.GT;
@@ -73,4 +88,12 @@ public class TranceServiceImpl implements TranceService {
             return null;
         }
     }
+
+    @Override
+    public void User_revo(SK sk) {
+        UserRevo userRevo = new UserRevo();
+        userRevo.setDelta(sk.getD2());
+        mapper.insert(userRevo);
+    }
+
 }

@@ -1,9 +1,26 @@
 package cn.shopping.lstsm_kgc.controller;
 
 
+import cn.shopping.lstsm_kgc.domain.ApiResult;
+import cn.shopping.lstsm_kgc.domain.ApiResultUtil;
+import cn.shopping.lstsm_kgc.entity.*;
+import cn.shopping.lstsm_kgc.service.SysParaService;
+import cn.shopping.lstsm_kgc.service.UserAttrService;
+import cn.shopping.lstsm_kgc.service.UserKeyService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
-
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.io.*;
+import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+import java.util.UUID;
 
 /**
  * <p>
@@ -14,7 +31,80 @@ import org.springframework.web.bind.annotation.RestController;
  * @since 2021-01-27
  */
 @RestController
-@RequestMapping("/user-key")
-public class UserKeyController {
+public class UserKeyController{
+
+    @Autowired
+    UserKeyService userKeyService;
+
+    @Autowired
+    SysParaService sysParaService;
+
+    @Autowired
+    UserAttrService userAttrService;
+
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+
+
+    @RequestMapping(value = "/getPK")
+    public ApiResult getPK(HttpServletRequest request) throws Exception {
+        request.setCharacterEncoding("utf-8");
+        HttpSession session = request.getSession();
+        PK pk = (PK)session.getAttribute("pk");
+        System.out.println(pk);
+        String format = sdf.format(new Date());
+        String realPath = request.getServletContext().getRealPath("/")+format;
+//        System.out.println(realPath);
+        File folder = new File(realPath);
+        if(!folder.exists()){
+            folder.mkdirs();
+        }
+        String newName = "pk"+UUID.randomUUID().toString() + ".txt";
+        System.out.println(realPath+newName);
+        File sk_file = new File(folder,newName);
+        String url = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+"/"+format+"/"+newName;
+        System.out.println(url);
+        try {
+            ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream(sk_file));
+            os.writeObject(pk);
+            os.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return ApiResultUtil.successReturn(url);
+    }
+
+    @RequestMapping("/getSK")
+    public ApiResult getSK(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.setCharacterEncoding("utf-8");
+        HttpSession session = request.getSession();
+        SK sk = (SK)session.getAttribute("sk");
+        System.out.println(sk);
+        String format = sdf.format(new Date());
+        String realPath = request.getServletContext().getRealPath("/")+format;
+//        System.out.println(realPath);
+        File folder = new File(realPath);
+        if(!folder.exists()){
+            folder.mkdirs();
+        }
+        String newName = "sk"+UUID.randomUUID().toString() + ".txt";
+        System.out.println(realPath+newName);
+        File sk_file = new File(folder,newName);
+        String url = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+"/"+format+"/"+newName;
+        System.out.println(url);
+        try {
+            ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream(sk_file));
+            os.writeObject(sk);
+            os.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return ApiResultUtil.successReturn(url);
+    }
+
+
 
 }

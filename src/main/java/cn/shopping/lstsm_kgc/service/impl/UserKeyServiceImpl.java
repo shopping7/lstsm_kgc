@@ -30,7 +30,7 @@ public class UserKeyServiceImpl extends ServiceImpl<UserKeyMapper, UserKey> impl
     UserKeyMapper mapper;
 
     @Override
-    public void KeyGen(PP pp, MSK msk, String id, String[] attributes) {
+    public void KeyGen(PP pp, MSK msk, String username, String[] attributes, boolean isNew) {
         Field G1 = DoublePairing.G1;
         Field GT = DoublePairing.GT;
         Field K = DoublePairing.K;
@@ -56,7 +56,7 @@ public class UserKeyServiceImpl extends ServiceImpl<UserKeyMapper, UserKey> impl
         Element u_11 = Zr.newRandomElement().getImmutable();
         Element u_111 = Zr.newRandomElement().getImmutable();
 
-        byte[] zeta_byte = Crytpto.SEnc(id.getBytes(), k1.toBytes());
+        byte[] zeta_byte = Crytpto.SEnc(username.getBytes(), k1.toBytes());
         String zeta = Base64.getEncoder().encodeToString(zeta_byte);
         String delta_1 = zeta + theta.toString();
         byte[] delta_2 = Crytpto.SEnc(delta_1.getBytes(), k2.toBytes());
@@ -115,16 +115,19 @@ public class UserKeyServiceImpl extends ServiceImpl<UserKeyMapper, UserKey> impl
         byte[] sk_b = serial.serial(sk);
 
         UserKey userKey = new UserKey();
-        userKey.setUserId(id);
+        userKey.setUsername(username);
         userKey.setPk(pk_b);
         userKey.setSk(sk_b);
 
-        mapper.insert(userKey);
-//        return userKey;
+        if(isNew){
+            mapper.insert(userKey);
+        }else{
+            mapper.updateById(userKey);
+        }
     }
 
     @Override
-    public UserKey getUserKey(String id) {
-        return mapper.selectById(id);
+    public UserKey getUserKey(String username) {
+        return mapper.selectById(username);
     }
 }

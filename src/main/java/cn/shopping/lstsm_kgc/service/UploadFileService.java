@@ -7,6 +7,7 @@ import cn.shopping.lstsm_kgc.entity.Tkw;
 import cn.shopping.lstsm_kgc.entity.UploadFile;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import java.io.File;
 import java.util.List;
 
 /**
@@ -19,7 +20,7 @@ import java.util.List;
  */
 public interface UploadFileService extends IService<UploadFile> {
 
-    public void Enc(PP pp, SK sk, String msg, LSSSMatrix lsss, String KW);
+    public void Enc(PP pp, SK sk, File file, LSSSMatrix lsss, String KW);
 
     public List getFile(String KW);
 }

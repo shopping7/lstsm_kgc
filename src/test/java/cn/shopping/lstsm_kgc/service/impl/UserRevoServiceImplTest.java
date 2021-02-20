@@ -3,8 +3,8 @@ package cn.shopping.lstsm_kgc.service.impl;
 import cn.shopping.lstsm_kgc.config.Serial;
 import cn.shopping.lstsm_kgc.entity.*;
 import cn.shopping.lstsm_kgc.service.SysParaService;
-import cn.shopping.lstsm_kgc.service.TranceService;
 import cn.shopping.lstsm_kgc.service.UserKeyService;
+import cn.shopping.lstsm_kgc.service.UserRevoService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -12,15 +12,16 @@ import org.springframework.boot.test.context.SpringBootTest;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-class TranceServiceImplTest {
-    @Autowired
-    TranceService tranceService;
+class UserRevoServiceImplTest {
 
     @Autowired
-    SysParaService sysParaService;
+    UserRevoService userRevoService;
 
     @Autowired
     UserKeyService userKeyService;
+
+    @Autowired
+    SysParaService sysParaService;
 
     @Test
     public void trance(){
@@ -37,8 +38,16 @@ class TranceServiceImplTest {
         byte[] sk_b = userKey.getSk();
         SK sk = (SK)serial.deserial(sk_b);
 
-        String id = tranceService.Trace(pp, msk, sk);
+        String id = userRevoService.Trace(pp, msk, sk);
         System.out.println(id);
     }
 
+    @Test
+    public void userRevo(){
+        UserKey userKey = userKeyService.getUserKey("id");
+        byte[] sk_b = userKey.getSk();
+        Serial serial = new Serial();
+        SK sk = (SK)serial.deserial(sk_b);
+        userRevoService.User_revo(sk);
+    }
 }

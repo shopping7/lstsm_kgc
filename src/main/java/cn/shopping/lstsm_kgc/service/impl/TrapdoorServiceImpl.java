@@ -1,6 +1,7 @@
 package cn.shopping.lstsm_kgc.service.impl;
 
 import cn.shopping.lstsm_kgc.config.Crytpto;
+import cn.shopping.lstsm_kgc.config.CrytptpFile;
 import cn.shopping.lstsm_kgc.entity.CTout;
 import cn.shopping.lstsm_kgc.entity.DoublePairing;
 import cn.shopping.lstsm_kgc.entity.SK;
@@ -62,7 +63,12 @@ public class TrapdoorServiceImpl implements TrapdoorService {
         Element gamma_verify = C0.div((L1.mul(V1)).powZn(u.mul(D4).invert())).getImmutable();
         String kse_v = DigestUtils.md5DigestAsHex(gamma_verify.toBytes());
         Element kse_verify = K.newElementFromBytes(kse_v.getBytes()).getImmutable();
-        byte[] m = Crytpto.SDec(CM,kse_verify.toBytes());
-        return m;
+        try {
+            byte[] bytes = CrytptpFile.SDec(CM, kse_verify.toBytes());
+            return bytes;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

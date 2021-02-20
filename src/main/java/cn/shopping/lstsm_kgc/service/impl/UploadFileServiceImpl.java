@@ -1,6 +1,7 @@
 package cn.shopping.lstsm_kgc.service.impl;
 
 import cn.shopping.lstsm_kgc.config.Crytpto;
+import cn.shopping.lstsm_kgc.config.CrytptpFile;
 import cn.shopping.lstsm_kgc.config.Serial;
 import cn.shopping.lstsm_kgc.config.lsss.LSSSMatrix;
 import cn.shopping.lstsm_kgc.config.lsss.LSSSShares;
@@ -16,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 
+import java.io.File;
 import java.util.List;
 
 /**
@@ -35,7 +37,7 @@ public class UploadFileServiceImpl extends ServiceImpl<UploadFileMapper, UploadF
     UploadFileMapper mapper;
 
     @Override
-    public void Enc(PP pp, SK sk, String msg, LSSSMatrix lsss, String KW) {
+    public void Enc(PP pp, SK sk, File file, LSSSMatrix lsss, String KW) {
         Field Zr = DoublePairing.Zr;
         Field G1 = DoublePairing.G1;
         Field GT = DoublePairing.GT;
@@ -46,7 +48,12 @@ public class UploadFileServiceImpl extends ServiceImpl<UploadFileMapper, UploadF
         String kse_t = DigestUtils.md5DigestAsHex(gamma.toBytes());
         Element kse = K.newElementFromBytes(kse_t.getBytes()).getImmutable();
 
-        byte[] CM = Crytpto.SEnc(msg.getBytes(), kse.toBytes());
+        byte[] CM = new byte[0];
+        try {
+            CM = CrytptpFile.encrypt(file, kse.toBytes());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         Element s = Zr.newRandomElement().getImmutable();
 
         String attributes[] = lsss.getMap();
@@ -112,8 +119,8 @@ public class UploadFileServiceImpl extends ServiceImpl<UploadFileMapper, UploadF
     @Override
     public List getFile(String KW) {
         QueryWrapper wrapper = new QueryWrapper();
-        wrapper.eq("kw", "hospital"); // where name=“小红”
-        List list = mapper.selectList(wrapper);
+        wrapper.eq("kw", KW);
+        List<UploadFile> list = mapper.selectList(wrapper);
         return list;
     }
 

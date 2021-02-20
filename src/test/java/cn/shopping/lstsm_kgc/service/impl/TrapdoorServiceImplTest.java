@@ -47,16 +47,15 @@ class TrapdoorServiceImplTest {
         DoublePairing doublePairing = new DoublePairing();
         doublePairing.getStart();
         Serial serial = new Serial();
-        sysParaService.Setup();
         SysPara sysPara = sysParaService.getSysPara();
         byte[] pp_b = sysPara.getPp();
         byte[] msk_b = sysPara.getMsk();
         PP pp = (PP)serial.deserial(pp_b);
         MSK msk = (MSK)serial.deserial(msk_b);
 
-        String[] user_attr = {"hospital","doctor","flu","heart"};
-        userKeyService.KeyGen(pp,msk,"id",user_attr);
-        UserKey userKey = userKeyService.getUserKey("id");
+        String[] user_attr = {"hospital","doctor","headache"};
+        userKeyService.KeyGen(pp,msk,"zhangsan",user_attr,true);
+        UserKey userKey = userKeyService.getUserKey("zhangsan");
         byte[] sk_b = userKey.getSk();
         byte[] pk_b = userKey.getPk();
         SK sk = (SK)serial.deserial(sk_b);
@@ -65,7 +64,7 @@ class TrapdoorServiceImplTest {
         String policy = "hospital&doctor&(headache|(flu&heart))";
         LSSSEngine engine = new LSSSEngine();
         LSSSMatrix lsss = engine.genMatrix(policy);
-        uploadFileService.Enc(pp, sk, "trytry", lsss, "hospital");
+//        uploadFileService.Enc(pp, sk, "trytry", lsss, "hospital");
         List list = uploadFileService.getFile("hospital");
         for(Object object : list){
             UploadFile uploadFile = (UploadFile)object;
@@ -77,9 +76,10 @@ class TrapdoorServiceImplTest {
             Tkw tkw = trapdoorService.Trapdoor(sk, "hospital");
             CTout CTout = transformService.Transform(ct, tkw, pk, lsssD1, lsssIndex);
             if(CTout != null){
-                byte[] dec = trapdoorService.Dec(CTout, sk);
-                String str = new String(dec);
-                System.out.println(str);
+//                byte[] dec = trapdoorService.Dec(CTout, sk);
+//                String str = new String(dec);
+//                System.out.println(str);
+                System.out.println("ctoutyou");
             }else{
                 System.out.println("CTout is null");
             }
