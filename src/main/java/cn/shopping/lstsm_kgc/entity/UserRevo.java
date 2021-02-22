@@ -12,7 +12,7 @@ import lombok.experimental.Accessors;
  * </p>
  *
  * @author 公众号：java思维导图
- * @since 2021-01-30
+ * @since 2021-02-22
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -21,7 +21,7 @@ public class UserRevo implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    private String username;
+
     private byte[] delta;
-
-
 }

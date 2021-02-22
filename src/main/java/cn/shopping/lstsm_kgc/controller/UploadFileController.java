@@ -48,7 +48,7 @@ public class UploadFileController {
 
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
-    @PostMapping("/user/upload")
+    @PostMapping("/user/uploadFile")
     @ResponseBody
     public ApiResult upload(@RequestParam("file") MultipartFile file, HttpServletRequest request) {
         String policy = request.getParameter("policy");

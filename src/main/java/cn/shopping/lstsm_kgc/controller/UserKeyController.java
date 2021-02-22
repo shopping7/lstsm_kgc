@@ -45,7 +45,7 @@ public class UserKeyController{
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
 
-    @RequestMapping(value = "/getPK")
+    @RequestMapping(value = "/user/getPK")
     public ApiResult getPK(HttpServletRequest request) throws Exception {
         request.setCharacterEncoding("utf-8");
         HttpSession session = request.getSession();
@@ -75,7 +75,7 @@ public class UserKeyController{
         return ApiResultUtil.successReturn(url);
     }
 
-    @RequestMapping("/getSK")
+    @RequestMapping("/user/getSK")
     public ApiResult getSK(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("utf-8");
         HttpSession session = request.getSession();

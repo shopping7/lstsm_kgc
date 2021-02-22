@@ -6,6 +6,8 @@ import cn.shopping.lstsm_kgc.entity.SK;
 import cn.shopping.lstsm_kgc.entity.UserRevo;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import java.util.List;
+
 /**
  * <p>
  *  服务类
@@ -17,5 +19,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 public interface UserRevoService extends IService<UserRevo> {
     public String Trace(PP pp, MSK msk, SK sk);
 
-    public void User_revo(SK sk);
+    public void User_revo(String username, SK sk);
+
+    public List getAllBlacks();
 }

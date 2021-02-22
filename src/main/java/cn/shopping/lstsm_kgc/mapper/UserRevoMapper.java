@@ -9,7 +9,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * </p>
  *
  * @author 公众号：java思维导图
- * @since 2021-01-30
+ * @since 2021-02-22
  */
 public interface UserRevoMapper extends BaseMapper<UserRevo> {
 

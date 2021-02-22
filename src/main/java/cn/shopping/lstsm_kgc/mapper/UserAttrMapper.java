@@ -10,12 +10,6 @@ import java.util.List;
 
 public interface UserAttrMapper extends BaseMapper {
 
-    @Select("select * from user")
-    List<User> getAllUser();
-
-    @Update("INSERT INTO USER(username,sex,email,phone) VALUES(#{username},#{sex},#{email},#{phone});")
-    void addUser(String username, boolean sex, String email, String phone);
-
     @Select("SELECT attr FROM user_attr u INNER JOIN attr a ON u.`attr_id` = a.`id` WHERE u.`username` = #{username}")
     List<String> getUserAttr(String username);
 

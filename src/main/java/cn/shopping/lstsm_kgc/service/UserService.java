@@ -6,6 +6,8 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.List;
+
 /**
  * <p>
  *  服务类
@@ -15,5 +17,10 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @since 2021-01-30
  */
 public interface UserService extends IService<User> {
+    public List<User> getAllUser();
+
+    public void addUser(User user);
+
+    public User getUser(String username);
 
 }

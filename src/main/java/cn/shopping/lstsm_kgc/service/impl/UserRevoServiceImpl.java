@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 
 import java.util.Base64;
+import java.util.List;
 
 /**
  * <p>
@@ -90,10 +91,16 @@ public class UserRevoServiceImpl extends ServiceImpl<UserRevoMapper, UserRevo> i
     }
 
     @Override
-    public void User_revo(SK sk) {
+    public void User_revo(String username, SK sk) {
         UserRevo userRevo = new UserRevo();
+        userRevo.setUsername(username);
         userRevo.setDelta(sk.getD2());
         mapper.insert(userRevo);
+    }
+
+    @Override
+    public List getAllBlacks() {
+        return mapper.selectList(null);
     }
 
 }

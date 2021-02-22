@@ -14,17 +14,6 @@ public class UserAttrServiceImpl implements UserAttrService {
     UserAttrMapper mapper;
 
     @Override
-    public List<User> getAllUser() {
-        List<User> allUser = mapper.getAllUser();
-        return allUser;
-    }
-
-    @Override
-    public void addUser(String username, boolean sex, String email, String phone) {
-        mapper.addUser(username, sex, email, phone);
-    }
-
-    @Override
     public List<String> getUserAttr(String username) {
         return mapper.getUserAttr(username);
     }

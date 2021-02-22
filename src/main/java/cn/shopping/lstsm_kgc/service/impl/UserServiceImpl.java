@@ -8,6 +8,8 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * <p>
  *  服务实现类
@@ -23,5 +25,20 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     UserMapper mapper;
 
 
+    @Override
+    public List<User> getAllUser() {
+        return mapper.selectList(null);
+    }
 
+    @Override
+    public void addUser(User user) {
+        mapper.insert(user);
+    }
+
+    @Override
+    public User getUser(String username) {
+        QueryWrapper queryWrapper = new QueryWrapper();
+        queryWrapper.eq("username",username);
+        return mapper.selectOne(queryWrapper);
+    }
 }

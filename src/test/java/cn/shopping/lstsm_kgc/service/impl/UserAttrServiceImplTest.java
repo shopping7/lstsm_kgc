@@ -25,7 +25,7 @@ class UserAttrServiceImplTest {
 
     @Test
     public void addUser(){
-        service.addUser("赵六1",true,"11773","234");
+//        service.addUser("赵六1",true,"11773","234");
     }
 
     @Test

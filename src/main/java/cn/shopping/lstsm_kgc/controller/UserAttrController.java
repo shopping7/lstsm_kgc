@@ -38,36 +38,11 @@ public class UserAttrController {
     @Autowired
     UserKeyService userKeyService;
 
-    @RequestMapping("/users")
-    public ApiResult getAllUsers(HttpServletRequest request, HttpServletResponse response){
-        List<User> allUser = userAttrService.getAllUser();
-        Map<User,List> map = new HashMap<>();
-        for (User user: allUser) {
-            List<String> userAttr = userAttrService.getUserAttr(user.getUsername());
-            map.put(user,userAttr);
-        }
-        return ApiResultUtil.successReturn(map);
-    }
 
-    @RequestMapping("/addUser")
-    public ApiResult addUser(@RequestBody UserVO user, HttpServletRequest request){
-        String username = user.getUsername();
-        HttpSession session = request.getSession();
-        PP pp = (PP)session.getAttribute("pp");
-        MSK msk = (MSK)session.getAttribute("msk");
-        List<String> userAttrList = user.getAttr();
-        String[] userAttr = userAttrList.toArray(new String[userAttrList.size()]);
-        userAttrService.addUser(username,user.getSex(),user.getEmail(),user.getPhone());
-        for(String attr : user.getAttr()){
-            userAttrService.addUserAttr(username,attr);
-        }
-        userKeyService.KeyGen(pp, msk, username, userAttr,true);
-        return ApiResultUtil.success();
-    }
 
     @RequestMapping("/deleteUser")
     public ApiResult deleteUser(@RequestBody UserVO user, HttpServletRequest request){
-        String username = user.getUsername();
+        String username = user.getUser().getUsername();
         HttpSession session = request.getSession();
 
         return ApiResultUtil.success();

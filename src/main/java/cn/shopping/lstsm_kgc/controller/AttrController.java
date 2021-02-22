@@ -4,12 +4,7 @@ package cn.shopping.lstsm_kgc.controller;
 import cn.shopping.lstsm_kgc.domain.ApiResult;
 import cn.shopping.lstsm_kgc.domain.ApiResultUtil;
 import cn.shopping.lstsm_kgc.entity.Attr;
-import cn.shopping.lstsm_kgc.entity.MSK;
-import cn.shopping.lstsm_kgc.entity.PP;
-import cn.shopping.lstsm_kgc.entity.User;
 import cn.shopping.lstsm_kgc.service.AttrService;
-import cn.shopping.lstsm_kgc.service.UserKeyService;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,7 +29,7 @@ public class AttrController {
     @Autowired
     AttrService service;
 
-    @RequestMapping("/attr")
+    @RequestMapping("/attrs")
     public ApiResult getAllAttr(HttpServletRequest request, HttpServletResponse response){
         List<Attr> allAttr = service.getAllAttr();
         return ApiResultUtil.successReturn(allAttr);
@@ -42,6 +37,7 @@ public class AttrController {
 
     @RequestMapping("/addAttr")
     public ApiResult addAttr(@RequestBody Attr attr,HttpServletRequest request){
+        System.out.println(attr);
         service.addAttr(attr);
         return ApiResultUtil.success();
     }
