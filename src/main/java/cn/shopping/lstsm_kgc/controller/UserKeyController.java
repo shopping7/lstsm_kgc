@@ -105,6 +105,15 @@ public class UserKeyController{
         return ApiResultUtil.successReturn(url);
     }
 
+    @RequestMapping("/keyGen")
+    public ApiResult KeyGen(HttpServletRequest request, HttpServletResponse response){
 
+        HttpSession session = request.getSession();
+        PP pp = (PP)session.getAttribute("pp");
+        MSK msk = (MSK)session.getAttribute("msk");
+
+//        userKeyService.KeyGen();
+        return ApiResultUtil.success();
+    }
 
 }

@@ -5,6 +5,7 @@ import cn.shopping.lstsm_kgc.config.Serial;
 import cn.shopping.lstsm_kgc.domain.ApiResult;
 import cn.shopping.lstsm_kgc.domain.ApiResultUtil;
 import cn.shopping.lstsm_kgc.domain.LoginVO;
+import cn.shopping.lstsm_kgc.domain.UserVO;
 import cn.shopping.lstsm_kgc.entity.*;
 import cn.shopping.lstsm_kgc.service.UserKeyService;
 import cn.shopping.lstsm_kgc.service.UserRevoService;
@@ -58,7 +59,8 @@ public class UserRevoController {
         try {
             SK sk = (SK) is.readObject();
             String trance = userRevoService.Trace(pp, msk, sk);
-            User user = userService.getUser(trance);
+            UserVO user = userService.getOneUser(trance);
+
             return ApiResultUtil.successReturn(user);
         } catch (ClassNotFoundException e) {
             e.printStackTrace();

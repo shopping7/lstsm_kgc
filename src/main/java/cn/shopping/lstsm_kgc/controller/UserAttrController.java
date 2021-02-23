@@ -39,15 +39,6 @@ public class UserAttrController {
     UserKeyService userKeyService;
 
 
-
-    @RequestMapping("/deleteUser")
-    public ApiResult deleteUser(@RequestBody UserVO user, HttpServletRequest request){
-        String username = user.getUser().getUsername();
-        HttpSession session = request.getSession();
-
-        return ApiResultUtil.success();
-    }
-
     @RequestMapping("/userAttrEdit")
     public ApiResult userAttrEdit(@RequestBody List<String> attrs,HttpServletRequest request){
         String username = request.getParameter("username");

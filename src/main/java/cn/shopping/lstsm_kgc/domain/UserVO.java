@@ -7,7 +7,13 @@ import java.util.List;
 
 @Data
 public class UserVO {
-    private User user;
+    private String username;
+
+    private boolean sex;
+
+    private String email;
+
+    private String phone;
 
     private List<String> attr;
 }

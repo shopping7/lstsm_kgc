@@ -1,7 +1,11 @@
 package cn.shopping.lstsm_kgc.mapper;
 
+import cn.shopping.lstsm_kgc.domain.UserVO;
 import cn.shopping.lstsm_kgc.entity.User;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Select;
+
+import java.util.List;
 
 /**
  * <p>
@@ -13,4 +17,9 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  */
 public interface UserMapper extends BaseMapper<User> {
 
+    public List<UserVO> getAllUsers();
+
+    public UserVO loginUser(String username, String password);
+
+    public UserVO getOneUser(String username);
 }

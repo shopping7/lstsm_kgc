@@ -1,5 +1,6 @@
 package cn.shopping.lstsm_kgc.service.impl;
 
+import cn.shopping.lstsm_kgc.domain.UserVO;
 import cn.shopping.lstsm_kgc.entity.User;
 import cn.shopping.lstsm_kgc.mapper.UserMapper;
 import cn.shopping.lstsm_kgc.service.UserService;
@@ -26,8 +27,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
 
     @Override
-    public List<User> getAllUser() {
-        return mapper.selectList(null);
+    public List<UserVO> getAllUsers() {
+        return mapper.getAllUsers();
     }
 
     @Override
@@ -36,9 +37,13 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     }
 
     @Override
-    public User getUser(String username) {
-        QueryWrapper queryWrapper = new QueryWrapper();
-        queryWrapper.eq("username",username);
-        return mapper.selectOne(queryWrapper);
+    public UserVO loginUser(String username, String password) {
+        return mapper.loginUser(username,password);
     }
+
+    @Override
+    public UserVO getOneUser(String username) {
+        return mapper.getOneUser(username);
+    }
+
 }

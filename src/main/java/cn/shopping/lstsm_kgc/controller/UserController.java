@@ -43,29 +43,35 @@ public class UserController {
 
     @RequestMapping("/users")
     public ApiResult getAllUsers(HttpServletRequest request, HttpServletResponse response){
-        List<User> allUser = userService.getAllUser();
-        Map<User,List> map = new HashMap<>();
-        for (User user: allUser) {
-            List<String> userAttr = userAttrService.getUserAttr(user.getUsername());
-            map.put(user,userAttr);
-        }
-        return ApiResultUtil.successReturn(map);
+        List<UserVO> allUsers = userService.getAllUsers();
+        return ApiResultUtil.successReturn(allUsers);
     }
 
     @RequestMapping("/addUser")
     public ApiResult addUser(@RequestBody UserVO user, HttpServletRequest request){
-        String username = user.getUser().getUsername();
+        String username = user.getUsername();
+        List<String> user_attr = user.getAttr();
         HttpSession session = request.getSession();
         PP pp = (PP)session.getAttribute("pp");
         MSK msk = (MSK)session.getAttribute("msk");
-        List<String> userAttrList = user.getAttr();
-        String[] userAttr = userAttrList.toArray(new String[userAttrList.size()]);
-        userService.addUser(user.getUser());
-        for(String attr : user.getAttr()){
-            userAttrService.addUserAttr(username,attr);
+        User newUser = new User();
+        if(username !=null && user_attr != null){
+            newUser.setUsername(username);
+            userService.addUser(newUser);
+            for(String attr : user_attr){
+                userAttrService.addUserAttr(username,attr);
+            }
         }
+        String[] userAttr = user_attr.toArray(new String[user_attr.size()]);
         userKeyService.KeyGen(pp, msk, username, userAttr,true);
         return ApiResultUtil.success();
     }
 
+    @RequestMapping("/deleteUser")
+    public ApiResult deleteUser(@RequestBody UserVO user, HttpServletRequest request){
+        String username = user.getUsername();
+        HttpSession session = request.getSession();
+
+        return ApiResultUtil.success();
+    }
 }

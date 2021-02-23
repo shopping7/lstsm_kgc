@@ -1,10 +1,8 @@
 package cn.shopping.lstsm_kgc.service;
 
+import cn.shopping.lstsm_kgc.domain.UserVO;
 import cn.shopping.lstsm_kgc.entity.User;
-import cn.shopping.lstsm_kgc.mapper.UserMapper;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.IService;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
@@ -17,10 +15,12 @@ import java.util.List;
  * @since 2021-01-30
  */
 public interface UserService extends IService<User> {
-    public List<User> getAllUser();
+    public List<UserVO> getAllUsers();
 
     public void addUser(User user);
 
-    public User getUser(String username);
+    public UserVO loginUser(String username, String password);
+
+    public UserVO getOneUser(String username);
 
 }
