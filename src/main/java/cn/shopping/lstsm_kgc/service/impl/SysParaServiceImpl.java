@@ -1,5 +1,6 @@
 package cn.shopping.lstsm_kgc.service.impl;
 
+import cn.shopping.lstsm_kgc.config.DoublePairing;
 import cn.shopping.lstsm_kgc.config.Serial;
 import cn.shopping.lstsm_kgc.entity.*;
 import cn.shopping.lstsm_kgc.mapper.SysParaMapper;

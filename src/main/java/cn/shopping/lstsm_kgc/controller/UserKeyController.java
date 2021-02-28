@@ -4,8 +4,6 @@ package cn.shopping.lstsm_kgc.controller;
 import cn.shopping.lstsm_kgc.domain.ApiResult;
 import cn.shopping.lstsm_kgc.domain.ApiResultUtil;
 import cn.shopping.lstsm_kgc.entity.*;
-import cn.shopping.lstsm_kgc.service.SysParaService;
-import cn.shopping.lstsm_kgc.service.UserAttrService;
 import cn.shopping.lstsm_kgc.service.UserKeyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,10 +14,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.*;
-import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 import java.util.UUID;
 
 /**
@@ -27,20 +23,12 @@ import java.util.UUID;
  *  前端控制器
  * </p>
  *
- * @author 公众号：java思维导图
- * @since 2021-01-27
  */
 @RestController
 public class UserKeyController{
 
     @Autowired
     UserKeyService userKeyService;
-
-    @Autowired
-    SysParaService sysParaService;
-
-    @Autowired
-    UserAttrService userAttrService;
 
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 

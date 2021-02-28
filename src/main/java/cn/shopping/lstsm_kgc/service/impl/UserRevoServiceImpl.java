@@ -1,6 +1,7 @@
 package cn.shopping.lstsm_kgc.service.impl;
 
 import cn.shopping.lstsm_kgc.config.Crytpto;
+import cn.shopping.lstsm_kgc.config.DoublePairing;
 import cn.shopping.lstsm_kgc.entity.*;
 import cn.shopping.lstsm_kgc.mapper.UserRevoMapper;
 import cn.shopping.lstsm_kgc.service.UserRevoService;

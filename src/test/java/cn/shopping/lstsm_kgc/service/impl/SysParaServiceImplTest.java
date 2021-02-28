@@ -1,8 +1,7 @@
 package cn.shopping.lstsm_kgc.service.impl;
 
-import cn.shopping.lstsm_kgc.entity.*;
+import cn.shopping.lstsm_kgc.config.DoublePairing;
 import cn.shopping.lstsm_kgc.service.SysParaService;
-import cn.shopping.lstsm_kgc.service.UserKeyService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

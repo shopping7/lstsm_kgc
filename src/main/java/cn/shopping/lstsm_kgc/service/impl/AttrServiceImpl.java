@@ -15,8 +15,6 @@ import java.util.List;
  *  服务实现类
  * </p>
  *
- * @author 公众号：java思维导图
- * @since 2021-02-08
  */
 @Service
 public class AttrServiceImpl extends ServiceImpl<AttrMapper, Attr> implements AttrService {
@@ -39,5 +37,12 @@ public class AttrServiceImpl extends ServiceImpl<AttrMapper, Attr> implements At
     @Override
     public void addAttr(Attr attr) {
         mapper.insert(attr);
+    }
+
+    @Override
+    public void editAttr(Attr attr) {
+        QueryWrapper queryWrapper = new QueryWrapper();
+        queryWrapper.eq("attr",attr.getAttr());
+        mapper.update(attr,queryWrapper);
     }
 }

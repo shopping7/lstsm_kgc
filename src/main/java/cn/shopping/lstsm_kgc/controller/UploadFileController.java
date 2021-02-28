@@ -6,11 +6,9 @@ import cn.shopping.lstsm_kgc.config.lsss.LSSSEngine;
 import cn.shopping.lstsm_kgc.config.lsss.LSSSMatrix;
 import cn.shopping.lstsm_kgc.domain.ApiResult;
 import cn.shopping.lstsm_kgc.domain.ApiResultUtil;
+import cn.shopping.lstsm_kgc.domain.UserVO;
 import cn.shopping.lstsm_kgc.entity.*;
-import cn.shopping.lstsm_kgc.service.TransformService;
-import cn.shopping.lstsm_kgc.service.TrapdoorService;
-import cn.shopping.lstsm_kgc.service.UploadFileService;
-import cn.shopping.lstsm_kgc.service.UserAttrService;
+import cn.shopping.lstsm_kgc.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.*;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -33,6 +32,9 @@ import java.util.UUID;
  */
 @RestController
 public class UploadFileController {
+
+    @Autowired
+    UserRevoService userRevoService;
 
     @Autowired
     TrapdoorService trapdoorService;
@@ -92,38 +94,32 @@ public class UploadFileController {
     }
 
 
+@RequestMapping("/user/getFile")
+public ApiResult getFile(@RequestParam("file") MultipartFile file, HttpServletRequest request) throws IOException {
+    String format = sdf.format(new Date());
+    String realPath = request.getServletContext().getRealPath("/") + format;
+    System.out.println(realPath);
+    File folder = new File(realPath);
+    if (!folder.exists()) {
+        folder.mkdirs();
+    }
+    String keyword = request.getParameter("keyword");
+    if (file.isEmpty()) {
+        ApiResultUtil.errorAuthorized("无文件");
+    }
+    InputStream in = file.getInputStream();
+    ObjectInputStream is = new ObjectInputStream(in);
 
-    @RequestMapping("/user/getFile")
-    public ApiResult getFile(@RequestParam("file") MultipartFile file, HttpServletRequest request) throws ServletException, IOException {
-
-        String keyword = request.getParameter("keyword");
-        if (file.isEmpty()) {
-            ApiResultUtil.errorAuthorized("没有匹配的文件");
-        }
-
-        String format = sdf.format(new Date());
-        String realPath = request.getServletContext().getRealPath("/") + format;
-        System.out.println(realPath);
-        File folder = new File(realPath);
-        if (!folder.exists()) {
-            folder.mkdirs();
-        }
-        String newName = UUID.randomUUID().toString() + ".txt";
-        System.out.println(newName);
-        File sk_file = new File(folder, newName);
-        String url = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + "/" + format + "/" + newName;
-        System.out.println(url);
-        file.transferTo(sk_file);
-
-        Serial serial = new Serial();
-
-        HttpSession session = request.getSession();
+    HttpSession session = request.getSession();
+    Serial serial = new Serial();
+    List<String> fileUrl = new ArrayList<>();
+    try {
         PK pk = (PK) session.getAttribute("pk");
-        SK sk = (SK) session.getAttribute("sk");
+        SK sk = (SK) is.readObject();
 
-        List userAttr = (List) session.getAttribute("userAttr");
-        String[] attrs = (String[]) userAttr.toArray(new String[userAttr.size()]);
-
+        UserVO loginUser = (UserVO) session.getAttribute("loginUser");
+        List<String> userAttr = loginUser.getAttr();
+        String[] attrs = userAttr.toArray(new String[userAttr.size()]);
         List<UploadFile> fileList = uploadFileService.getFile(keyword);
         if (fileList.size() > 0) {
             for (UploadFile key_file : fileList) {
@@ -133,18 +129,30 @@ public class UploadFileController {
                 int lsssIndex[] = lsssD1.getIndex();
                 Tkw tkw = trapdoorService.Trapdoor(sk, keyword);
                 CTout ctout = transformService.Transform(ct, tkw, pk, lsssD1, lsssIndex);
+                int i=1;
                 if (ctout != null) {
+                    String newName = UUID.randomUUID().toString() +i+ ".txt";
+                    System.out.println(newName);
+                    File sk_file = new File(folder, newName);
+                    String url = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + "/" + format + "/" + newName;
                     byte[] dec = trapdoorService.Dec(ctout, sk);
                     ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream(sk_file));
                     os.writeObject(dec);
                     os.close();
-                    return ApiResultUtil.successReturn(url);
+                    fileUrl.add(url);
                 }
             }
-            return ApiResultUtil.errorParam("无权限");
         } else {
-            return ApiResultUtil.errorParam("返回文件错误");
+            return ApiResultUtil.errorParam("无匹配文件");
         }
-
+    } catch (ClassNotFoundException e) {
+        e.printStackTrace();
     }
+    if(fileUrl.size() > 0){
+        return ApiResultUtil.successReturn(fileUrl);
+    }else{
+        return ApiResultUtil.errorParam("无权限解密");
+    }
+
+}
 }

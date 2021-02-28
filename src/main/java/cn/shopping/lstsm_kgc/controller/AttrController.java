@@ -48,5 +48,12 @@ public class AttrController {
         System.out.println(attr);
         return ApiResultUtil.success();
     }
+
+    @RequestMapping("/editAttr")
+    public ApiResult editAttr(@RequestBody Attr attr,HttpServletRequest request){
+        service.editAttr(attr);
+        System.out.println(attr);
+        return ApiResultUtil.success();
+    }
 }
 

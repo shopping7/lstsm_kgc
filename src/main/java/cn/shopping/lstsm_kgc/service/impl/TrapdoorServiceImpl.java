@@ -1,9 +1,8 @@
 package cn.shopping.lstsm_kgc.service.impl;
 
-import cn.shopping.lstsm_kgc.config.Crytpto;
 import cn.shopping.lstsm_kgc.config.CrytptpFile;
 import cn.shopping.lstsm_kgc.entity.CTout;
-import cn.shopping.lstsm_kgc.entity.DoublePairing;
+import cn.shopping.lstsm_kgc.config.DoublePairing;
 import cn.shopping.lstsm_kgc.entity.SK;
 import cn.shopping.lstsm_kgc.entity.Tkw;
 import cn.shopping.lstsm_kgc.service.TrapdoorService;

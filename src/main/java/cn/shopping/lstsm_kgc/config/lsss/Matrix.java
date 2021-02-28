@@ -1,7 +1,7 @@
 package cn.shopping.lstsm_kgc.config.lsss;
 
 
-import cn.shopping.lstsm_kgc.entity.DoublePairing;
+import cn.shopping.lstsm_kgc.config.DoublePairing;
 import it.unisa.dia.gas.jpbc.Element;
 
 import java.io.Serializable;

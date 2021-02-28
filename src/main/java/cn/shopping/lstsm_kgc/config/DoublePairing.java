@@ -1,4 +1,4 @@
-package cn.shopping.lstsm_kgc.entity;
+package cn.shopping.lstsm_kgc.config;
 
 import it.unisa.dia.gas.jpbc.Field;
 import it.unisa.dia.gas.jpbc.Pairing;

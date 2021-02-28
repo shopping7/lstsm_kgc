@@ -1,6 +1,7 @@
 package cn.shopping.lstsm_kgc.service.impl;
 
 import cn.shopping.lstsm_kgc.config.Crytpto;
+import cn.shopping.lstsm_kgc.config.DoublePairing;
 import cn.shopping.lstsm_kgc.config.Serial;
 import cn.shopping.lstsm_kgc.entity.*;
 import cn.shopping.lstsm_kgc.mapper.UserKeyMapper;
@@ -8,7 +9,6 @@ import cn.shopping.lstsm_kgc.service.UserKeyService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Field;
-import org.apache.tomcat.jni.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
@@ -40,11 +40,11 @@ public class UserKeyServiceImpl extends ServiceImpl<UserKeyMapper, UserKey> impl
         Element Y0 = GT.newElementFromBytes(pp.getY0()).getImmutable();
         Element f = G1.newElementFromBytes(pp.getF()).getImmutable();
 
-        Element k1 = K.newElementFromBytes(msk.getK1()).getImmutable();;
-        Element k2 = K.newElementFromBytes(msk.getK2()).getImmutable();;
-        Element lambda = Zr.newElementFromBytes(msk.getLambda()).getImmutable();;
-        Element alpha = Zr.newElementFromBytes(msk.getAlpha()).getImmutable();;
-        Element tau = Zr.newElementFromBytes(msk.getTau()).getImmutable();;
+        Element k1 = K.newElementFromBytes(msk.getK1()).getImmutable();
+        Element k2 = K.newElementFromBytes(msk.getK2()).getImmutable();
+        Element lambda = Zr.newElementFromBytes(msk.getLambda()).getImmutable();
+        Element alpha = Zr.newElementFromBytes(msk.getAlpha()).getImmutable();
+        Element tau = Zr.newElementFromBytes(msk.getTau()).getImmutable();
 
         Element a = Zr.newRandomElement().getImmutable();
         Element r = Zr.newRandomElement().getImmutable();

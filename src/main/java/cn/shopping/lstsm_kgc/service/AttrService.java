@@ -19,4 +19,6 @@ public interface AttrService extends IService<Attr> {
     public void deleteAttr(String attr);
 
     public void addAttr(Attr attr);
+
+    public void editAttr(Attr attr);
 }

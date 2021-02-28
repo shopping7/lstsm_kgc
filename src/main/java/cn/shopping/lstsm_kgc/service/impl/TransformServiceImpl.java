@@ -1,5 +1,6 @@
 package cn.shopping.lstsm_kgc.service.impl;
 
+import cn.shopping.lstsm_kgc.config.DoublePairing;
 import cn.shopping.lstsm_kgc.config.lsss.LSSSMatrix;
 import cn.shopping.lstsm_kgc.config.lsss.Vector;
 import cn.shopping.lstsm_kgc.entity.*;
