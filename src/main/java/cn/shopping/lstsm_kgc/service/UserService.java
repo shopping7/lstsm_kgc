@@ -19,6 +19,8 @@ public interface UserService extends IService<User> {
 
     public void addUser(User user);
 
+    public void deleteUser(String username);
+
     public UserVO loginUser(String username, String password);
 
     public UserVO getOneUser(String username);

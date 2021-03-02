@@ -46,11 +46,19 @@ class UserRevoServiceImplTest {
 
     @Test
     public void userRevo(){
-//        UserKey userKey = userKeyService.getUserKey("id");
-//        byte[] sk_b = userKey.getSk();
-//        Serial serial = new Serial();
-//        SK sk = (SK)serial.deserial(sk_b);
-//        userRevoService.User_revo(sk);
+        UserKey userKey = userKeyService.getUserKey("zhangsan");
+        byte[] sk_b = userKey.getSk();
+        Serial serial = new Serial();
+        SK sk = (SK)serial.deserial(sk_b);
+        String d2 = new String(sk.getD2());
+        List<UserRevo> allBlacks = userRevoService.getAllBlacks();
+        for(UserRevo ur : allBlacks){
+            if (new String(ur.getDelta()).equals(d2)){
+                System.out.println(1);
+            }else{
+                System.out.println(2);
+            }
+        }
     }
 
     @Test

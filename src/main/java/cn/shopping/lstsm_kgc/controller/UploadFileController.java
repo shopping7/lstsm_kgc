@@ -94,65 +94,104 @@ public class UploadFileController {
     }
 
 
-@RequestMapping("/user/getFile")
-public ApiResult getFile(@RequestParam("file") MultipartFile file, HttpServletRequest request) throws IOException {
-    String format = sdf.format(new Date());
-    String realPath = request.getServletContext().getRealPath("/") + format;
-    System.out.println(realPath);
-    File folder = new File(realPath);
-    if (!folder.exists()) {
-        folder.mkdirs();
-    }
-    String keyword = request.getParameter("keyword");
-    if (file.isEmpty()) {
-        ApiResultUtil.errorAuthorized("无文件");
-    }
-    InputStream in = file.getInputStream();
-    ObjectInputStream is = new ObjectInputStream(in);
-
-    HttpSession session = request.getSession();
-    Serial serial = new Serial();
-    List<String> fileUrl = new ArrayList<>();
-    try {
-        PK pk = (PK) session.getAttribute("pk");
-        SK sk = (SK) is.readObject();
-
-        UserVO loginUser = (UserVO) session.getAttribute("loginUser");
-        List<String> userAttr = loginUser.getAttr();
-        String[] attrs = userAttr.toArray(new String[userAttr.size()]);
-        List<UploadFile> fileList = uploadFileService.getFile(keyword);
-        if (fileList.size() > 0) {
-            for (UploadFile key_file : fileList) {
-                CT ct = (CT) serial.deserial(key_file.getCt());
-                LSSSMatrix lsss = (LSSSMatrix) serial.deserial(key_file.getLsss());
-                LSSSMatrix lsssD1 = lsss.extract(attrs);
-                int lsssIndex[] = lsssD1.getIndex();
-                Tkw tkw = trapdoorService.Trapdoor(sk, keyword);
-                CTout ctout = transformService.Transform(ct, tkw, pk, lsssD1, lsssIndex);
-                int i=1;
-                if (ctout != null) {
-                    String newName = UUID.randomUUID().toString() +i+ ".txt";
-                    System.out.println(newName);
-                    File sk_file = new File(folder, newName);
-                    String url = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + "/" + format + "/" + newName;
-                    byte[] dec = trapdoorService.Dec(ctout, sk);
-                    ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream(sk_file));
-                    os.writeObject(dec);
-                    os.close();
-                    fileUrl.add(url);
-                }
-            }
-        } else {
-            return ApiResultUtil.errorParam("无匹配文件");
+    @RequestMapping("/user/getFile")
+    public ApiResult getFile(@RequestParam("file") MultipartFile file, HttpServletRequest request) throws IOException {
+        String format = sdf.format(new Date());
+        String realPath = request.getServletContext().getRealPath("/") + format;
+        System.out.println(realPath);
+        File folder = new File(realPath);
+        if (!folder.exists()) {
+            folder.mkdirs();
         }
-    } catch (ClassNotFoundException e) {
-        e.printStackTrace();
-    }
-    if(fileUrl.size() > 0){
-        return ApiResultUtil.successReturn(fileUrl);
-    }else{
-        return ApiResultUtil.errorParam("无权限解密");
+        String keyword = request.getParameter("keyword");
+        System.out.println(keyword);
+        if (file.isEmpty()) {
+            ApiResultUtil.errorAuthorized("无文件");
+        }
+        InputStream in = file.getInputStream();
+        ObjectInputStream is = new ObjectInputStream(in);
+
+        HttpSession session = request.getSession();
+        Serial serial = new Serial();
+        List<String> fileUrl = new ArrayList<>();
+        try {
+            PK pk = (PK) session.getAttribute("pk");
+            System.out.println(pk);
+            SK sk = (SK) is.readObject();
+            System.out.println(sk);
+//            SK sk = (SK) session.getAttribute("sk");
+//            System.out.println(sk);
+            UserVO loginUser = (UserVO) session.getAttribute("loginUser");
+            List userAttr = userAttrService.getUserAttr(loginUser.getUsername());
+            String[] attrs = (String[]) userAttr.toArray(new String[userAttr.size()]);
+            for (int i = 0; i < attrs.length; i++) {
+                System.out.println(attrs[i]);
+            }
+            List<UploadFile> fileList = uploadFileService.getFile(keyword);
+            if (fileList.size() > 0) {
+                for (UploadFile key_file : fileList) {
+                    CT ct = (CT) serial.deserial(key_file.getCt());
+                    LSSSMatrix lsss = (LSSSMatrix) serial.deserial(key_file.getLsss());
+                    LSSSMatrix lsssD1 = lsss.extract(attrs);
+                    int lsssIndex[] = lsssD1.getIndex();
+                    Tkw tkw = trapdoorService.Trapdoor(sk, keyword);
+                    CTout ctout = transformService.Transform(ct, tkw, pk, lsssD1, lsssIndex);
+
+                    if (ctout != null) {
+                        System.out.println(123);
+                        String newName = UUID.randomUUID().toString() + ".txt";
+                        System.out.println(newName);
+                        File sk_file = new File(folder, newName);
+                        String url = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + "/" + format + "/" + newName;
+                        byte[] dec = trapdoorService.Dec(ctout, sk);
+                        ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream(sk_file));
+                        os.writeObject(dec);
+                        os.close();
+                        fileUrl.add(url);
+                    }
+                }
+            } else {
+                return ApiResultUtil.errorParam("无匹配文件");
+            }
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        if(fileUrl.size() > 0){
+            return ApiResultUtil.successReturn(fileUrl);
+        }else{
+            return ApiResultUtil.errorParam("无权限解密");
+        }
+
     }
 
-}
+    @RequestMapping("/user/getFile1")
+    public ApiResult getFile1(@RequestParam("file") MultipartFile file, HttpServletRequest request) throws IOException {
+        HttpSession session = request.getSession();
+
+        Serial serial = new Serial();
+        PK pk = (PK) session.getAttribute("pk");
+        SK sk = (SK) session.getAttribute("sk");
+
+        List userAttr = userAttrService.getUserAttr("zhangsan");
+        String[] attrs = (String[]) userAttr.toArray(new String[userAttr.size()]);
+
+        List<UploadFile> fileList = uploadFileService.getFile("test1234");
+        System.out.println(fileList.size());
+        for(UploadFile key_file : fileList){
+            CT ct = (CT)serial.deserial(key_file.getCt());
+            LSSSMatrix lsss = (LSSSMatrix) serial.deserial(key_file.getLsss());
+            LSSSMatrix lsssD1 = lsss.extract(attrs);
+            int lsssIndex[] = lsssD1.getIndex();
+            Tkw tkw = trapdoorService.Trapdoor(sk, "test1234");
+            CTout ctout = transformService.Transform(ct, tkw, pk,lsssD1,lsssIndex);
+            if(ctout != null) {
+                byte[] dec = trapdoorService.Dec(ctout, sk);
+                System.out.println(dec.length);
+                String cm = new String(dec);
+                System.out.println(cm);
+            }
+        }
+
+        return null;
+    }
 }

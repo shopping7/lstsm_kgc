@@ -4,7 +4,6 @@ package cn.shopping.lstsm_kgc.controller;
 import cn.shopping.lstsm_kgc.config.Serial;
 import cn.shopping.lstsm_kgc.domain.ApiResult;
 import cn.shopping.lstsm_kgc.domain.ApiResultUtil;
-import cn.shopping.lstsm_kgc.domain.LoginVO;
 import cn.shopping.lstsm_kgc.domain.UserVO;
 import cn.shopping.lstsm_kgc.entity.*;
 import cn.shopping.lstsm_kgc.service.UserKeyService;
@@ -77,6 +76,13 @@ public class UserRevoController {
         Serial serial = new Serial();
         SK sk = (SK)serial.deserial(userKey.getSk());
         userRevoService.User_revo(username,sk);
+        return ApiResultUtil.success();
+    }
+
+    @RequestMapping("/deleteBlack")
+    public ApiResult deleteBlack(@RequestBody User user, HttpServletRequest request) {
+        String username = user.getUsername();
+        userRevoService.black_delete(username);
         return ApiResultUtil.success();
     }
 

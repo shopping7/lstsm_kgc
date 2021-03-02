@@ -1,17 +1,13 @@
 package cn.shopping.lstsm_kgc.controller;
 
 
-import cn.shopping.lstsm_kgc.config.Serial;
 import cn.shopping.lstsm_kgc.domain.ApiResult;
 import cn.shopping.lstsm_kgc.domain.ApiResultUtil;
-import cn.shopping.lstsm_kgc.domain.LoginVO;
 import cn.shopping.lstsm_kgc.domain.UserVO;
 import cn.shopping.lstsm_kgc.entity.*;
-import cn.shopping.lstsm_kgc.service.SysParaService;
 import cn.shopping.lstsm_kgc.service.UserAttrService;
 import cn.shopping.lstsm_kgc.service.UserKeyService;
 import cn.shopping.lstsm_kgc.service.UserService;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -70,8 +66,14 @@ public class UserController {
     @RequestMapping("/deleteUser")
     public ApiResult deleteUser(@RequestBody UserVO user, HttpServletRequest request){
         String username = user.getUsername();
-        HttpSession session = request.getSession();
-
+        userService.deleteUser(username);
         return ApiResultUtil.success();
+    }
+
+    @RequestMapping("/user_detail")
+    public ApiResult userDetail(@RequestBody UserVO user, HttpServletRequest request){
+        String username = user.getUsername();
+        UserVO oneUser = userService.getOneUser(username);
+        return ApiResultUtil.successReturn(oneUser);
     }
 }

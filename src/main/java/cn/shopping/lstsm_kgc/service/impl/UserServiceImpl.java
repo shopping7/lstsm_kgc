@@ -37,6 +37,13 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     }
 
     @Override
+    public void deleteUser(String username) {
+        QueryWrapper queryWrapper = new QueryWrapper();
+        queryWrapper.eq("username",username);
+        mapper.delete(queryWrapper);
+    }
+
+    @Override
     public UserVO loginUser(String username, String password) {
         return mapper.loginUser(username,password);
     }

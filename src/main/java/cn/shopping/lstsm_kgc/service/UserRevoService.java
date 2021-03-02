@@ -21,5 +21,7 @@ public interface UserRevoService extends IService<UserRevo> {
 
     public void User_revo(String username, SK sk);
 
-    public List getAllBlacks();
+    public void black_delete(String username);
+
+    public List<UserRevo> getAllBlacks();
 }

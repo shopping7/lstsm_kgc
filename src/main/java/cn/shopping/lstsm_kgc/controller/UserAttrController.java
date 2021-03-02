@@ -40,12 +40,11 @@ public class UserAttrController {
 
 
     @RequestMapping("/userAttrEdit")
-    public ApiResult userAttrEdit(@RequestBody List<String> attrs,HttpServletRequest request){
-        String username = request.getParameter("username");
-        System.out.println(username);
-        System.out.println(attrs);
+    public ApiResult userAttrEdit(@RequestBody UserVO user,HttpServletRequest request){
+        String username = user.getUsername();
+        List<String> user_attr = user.getAttr();
         userAttrService.DeleteUserAttr(username);
-        for(String attr : attrs){
+        for(String attr : user_attr){
             userAttrService.addUserAttr(username,attr);
         }
 

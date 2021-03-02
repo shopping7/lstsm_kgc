@@ -48,7 +48,7 @@ class UploadFileServiceImplTest {
         DoublePairing doublePairing = new DoublePairing();
         doublePairing.getStart();
         File file = new File("C:\\Users\\shopping3\\Downloads\\12.txt");
-        uploadFileService.Enc(pp,sk,file,lsss,"test123");
+        uploadFileService.Enc(pp,sk,file,lsss,"test1234");
     }
 
     @Test
@@ -64,28 +64,28 @@ class UploadFileServiceImplTest {
         List userAttr = userAttrService.getUserAttr("zhangsan");
         String[] attrs = (String[]) userAttr.toArray(new String[userAttr.size()]);
 
-        List<UploadFile> fileList = uploadFileService.getFile("test123");
+        List<UploadFile> fileList = uploadFileService.getFile("test1234");
         System.out.println(fileList.size());
-//        for(UploadFile key_file : fileList){
-//            CT ct = (CT)serial.deserial(key_file.getCt());
-//            LSSSMatrix lsss = (LSSSMatrix) serial.deserial(key_file.getLsss());
-//            LSSSMatrix lsssD1 = lsss.extract(attrs);
-//            int lsssIndex[] = lsssD1.getIndex();
-//            Tkw tkw = trapdoorService.Trapdoor(sk, "hospital");
-//            CTout ctout = transformService.Transform(ct, tkw, pk,lsssD1,lsssIndex);
-//            if(ctout != null) {
-//                    byte[] dec = trapdoorService.Dec(ctout, sk);
-//                    System.out.println(dec.length);
-//                    String cm = new String(dec);
-//                    System.out.println(cm);
-//                }
-//            }
+        for(UploadFile key_file : fileList){
+            CT ct = (CT)serial.deserial(key_file.getCt());
+            LSSSMatrix lsss = (LSSSMatrix) serial.deserial(key_file.getLsss());
+            LSSSMatrix lsssD1 = lsss.extract(attrs);
+            int lsssIndex[] = lsssD1.getIndex();
+            Tkw tkw = trapdoorService.Trapdoor(sk, "test1234");
+            CTout ctout = transformService.Transform(ct, tkw, pk,lsssD1,lsssIndex);
+            if(ctout != null) {
+                    byte[] dec = trapdoorService.Dec(ctout, sk);
+                    System.out.println(dec.length);
+                    String cm = new String(dec);
+                    System.out.println(cm);
+                }
+            }
 
         }
 
         @Test
         public void get(){
-            List<UploadFile> fileList = uploadFileService.getFile("hello1");
+            List<UploadFile> fileList = uploadFileService.getFile("test1234");
             System.out.println(fileList.size());
         }
 

@@ -5,6 +5,7 @@ import cn.shopping.lstsm_kgc.config.DoublePairing;
 import cn.shopping.lstsm_kgc.entity.*;
 import cn.shopping.lstsm_kgc.mapper.UserRevoMapper;
 import cn.shopping.lstsm_kgc.service.UserRevoService;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Field;
@@ -100,7 +101,14 @@ public class UserRevoServiceImpl extends ServiceImpl<UserRevoMapper, UserRevo> i
     }
 
     @Override
-    public List getAllBlacks() {
+    public void black_delete(String username) {
+        QueryWrapper queryWrapper = new QueryWrapper();
+        queryWrapper.eq("username",username);
+        mapper.delete(queryWrapper);
+    }
+
+    @Override
+    public List<UserRevo> getAllBlacks() {
         return mapper.selectList(null);
     }
 
