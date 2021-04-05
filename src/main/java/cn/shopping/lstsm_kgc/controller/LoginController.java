@@ -7,6 +7,7 @@ import cn.shopping.lstsm_kgc.domain.LoginVO;
 import cn.shopping.lstsm_kgc.domain.UserVO;
 import cn.shopping.lstsm_kgc.config.DoublePairing;
 import cn.shopping.lstsm_kgc.entity.SysPara;
+import cn.shopping.lstsm_kgc.entity.User;
 import cn.shopping.lstsm_kgc.entity.UserKey;
 import cn.shopping.lstsm_kgc.service.SysParaService;
 import cn.shopping.lstsm_kgc.service.UserAttrService;
@@ -38,6 +39,7 @@ public class LoginController {
 
     @RequestMapping("/user/login")
     public ApiResult login(@RequestBody LoginVO login, HttpServletRequest request) {
+        System.out.println(login.getUsername());
         UserVO loginUser = userService.loginUser(login.getUsername(),login.getPassword());
         HttpSession session = request.getSession();
         session.setAttribute("loginUser",loginUser);
@@ -66,15 +68,22 @@ public class LoginController {
         }
     }
 
-    @RequestMapping("/user/info")
-    public ApiResult getUserInfo(HttpServletRequest request, HttpServletResponse response) {
+
+
+
+    @RequestMapping("/user/editPwd")
+    public ApiResult editPwd(HttpServletRequest request, HttpServletResponse response) {
+        String oldPwd = request.getParameter("oldPwd");
+        String newPwd = request.getParameter("newPwd");
         HttpSession session = request.getSession();
         UserVO user = (UserVO)session.getAttribute("loginUser");
+        String username = user.getUsername();
         if (user != null) {
-            System.out.println("success");
-            return ApiResultUtil.successReturn(user);
-        } else {
-            return ApiResultUtil.errorAuthorized("获取用户信息错误");
+            if(userService.correctPwd(username, oldPwd)){
+                userService.editPwd(username, newPwd);
+                return ApiResultUtil.success();
+            }
         }
+        return ApiResultUtil.errorAuthorized("修改用户信息错误");
     }
 }

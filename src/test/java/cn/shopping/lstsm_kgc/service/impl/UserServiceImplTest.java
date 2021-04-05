@@ -28,4 +28,16 @@ class UserServiceImplTest {
         List<UserVO> allUser = userService.getAllUsers();
         System.out.println(allUser);
     }
+
+    @Test
+    public void correctPwd(){
+//        if(userService.correctPwd("lisi", "123456")){
+//            userService.editPwd("lisi","234567");
+//
+//        }else{
+//            System.out.println(222);
+//        }
+        userService.editPwd("lisi","234567");
+    }
+
 }

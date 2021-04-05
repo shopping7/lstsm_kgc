@@ -25,4 +25,9 @@ public interface UserService extends IService<User> {
 
     public UserVO getOneUser(String username);
 
+    public boolean correctPwd(String username, String password);
+
+    public void editPwd(String username, String password);
+
+    public void editProfile(String username, boolean sex, String email, String phone);
 }

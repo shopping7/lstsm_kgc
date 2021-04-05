@@ -76,4 +76,35 @@ public class UserController {
         UserVO oneUser = userService.getOneUser(username);
         return ApiResultUtil.successReturn(oneUser);
     }
+
+    @RequestMapping("/user/editProfile")
+    public ApiResult editProfile(@RequestBody User userEdit, HttpServletRequest request, HttpServletResponse response) {
+        HttpSession session = request.getSession();
+        System.out.println(userEdit);
+//        UserVO user = (UserVO)session.getAttribute("loginUser");
+//        String username = user.getUsername();
+//        if (user != null) {
+//            int sex = userEdit.getSex() ? 1:0;
+        String username = userEdit.getUsername();
+        userService.editProfile(username, userEdit.getSex(), userEdit.getEmail(), userEdit.getPhone());
+        UserVO oneUser = userService.getOneUser(username);
+        if(oneUser != null){
+            session.removeAttribute("loginUser");
+            session.setAttribute("loginUser",oneUser);
+            return ApiResultUtil.successReturn(oneUser);
+        }
+        return ApiResultUtil.errorAuthorized("修改用户信息失败");
+    }
+
+//        @RequestMapping("/user/info")
+//        public ApiResult getUserInfo(HttpServletRequest request, HttpServletResponse response) {
+//            HttpSession session = request.getSession();
+//            UserVO user = (UserVO)session.getAttribute("loginUser");
+//            if (user != null) {
+//                System.out.println("success");
+//                return ApiResultUtil.successReturn(user);
+//            } else {
+//                return ApiResultUtil.errorAuthorized("获取用户信息错误");
+//            }
+//        }
 }

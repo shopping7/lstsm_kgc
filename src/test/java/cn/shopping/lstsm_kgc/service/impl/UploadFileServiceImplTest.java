@@ -39,10 +39,10 @@ class UploadFileServiceImplTest {
         SysPara sysPara = sysParaService.getSysPara();
         Serial serial = new Serial();
         PP pp = (PP)serial.deserial(sysPara.getPp());
-        UserKey userKey = userKeyService.getUserKey("zhangsan");
+        UserKey userKey = userKeyService.getUserKey("张三");
         byte[] sk_b = userKey.getSk();
         SK sk = (SK)serial.deserial(sk_b);
-        String policy = "hospital&doctor&(headache|(flu&heart))";
+        String policy = "医院&医生&(头疼|(流感&心脏科))";
         LSSSEngine engine = new LSSSEngine();
         LSSSMatrix lsss = engine.genMatrix(policy);
         DoublePairing doublePairing = new DoublePairing();

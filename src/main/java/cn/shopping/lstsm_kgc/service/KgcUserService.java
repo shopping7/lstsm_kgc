@@ -16,5 +16,5 @@ import java.util.List;
  */
 public interface KgcUserService extends IService<KgcUser> {
 
-
+    public KgcUser loginUser(String username, String password);
 }

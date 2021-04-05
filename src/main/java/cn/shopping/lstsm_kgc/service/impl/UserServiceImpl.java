@@ -53,4 +53,19 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         return mapper.getOneUser(username);
     }
 
+    @Override
+    public boolean correctPwd(String username, String password) {
+        return mapper.correctPwd(username,password);
+    }
+
+    @Override
+    public void editPwd(String username, String password) {
+        mapper.editPwd(username,password);
+    }
+
+    @Override
+    public void editProfile(String username, boolean sex, String email, String phone) {
+        mapper.editProfile(username, sex, email, phone);
+    }
+
 }

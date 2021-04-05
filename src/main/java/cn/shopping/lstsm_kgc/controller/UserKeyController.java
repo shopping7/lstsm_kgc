@@ -46,7 +46,7 @@ public class UserKeyController{
         if(!folder.exists()){
             folder.mkdirs();
         }
-        String newName = "pk"+UUID.randomUUID().toString() + ".txt";
+        String newName = "pk"+ ".txt";
         System.out.println(realPath+newName);
         File sk_file = new File(folder,newName);
         String url = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+"/"+format+"/"+newName;
@@ -76,7 +76,7 @@ public class UserKeyController{
         if(!folder.exists()){
             folder.mkdirs();
         }
-        String newName = "sk"+UUID.randomUUID().toString() + ".txt";
+        String newName = "sk"+".txt";
         System.out.println(realPath+newName);
         File sk_file = new File(folder,newName);
         String url = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+"/"+format+"/"+newName;
